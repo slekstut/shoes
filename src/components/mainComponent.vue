@@ -34,22 +34,60 @@
         @click="setActive(index)"
         :class="{ active: activeIndex === index }"
       >
-        <img :src="'/images/' + product.image" :alt="product.image" />
-        <span class="brand">{{ product.brand }}</span>
-        <span class="title">{{ product.title }}</span>
+        <img
+          :src="'/images/' + product.image"
+          :alt="product.image"
+          @click="isSelected = true"
+        />
+        <span class="brand" @click="isSelected = true"
+          >{{ product.brand }}
+        </span>
+        <span class="title" @click="isSelected = true">{{
+          product.title
+        }}</span>
         <span v-if="product.price.finalPrice < product.price.regularPrice">
-          <span class="original-price"
+          <span class="original-price" @click="showSelected"
             >{{ product.price.regularPrice }} {{ product.price.currency }}</span
           >
-          <span class="discount-price discount-box"
+          <span class="discount-price discount-box" @click="isSelected = true"
             >{{ product.price.finalPrice }} {{ product.price.currency }}</span
           >
         </span>
-        <span class="original-price-only original-price-box" v-else
+        <span
+          class="original-price-only original-price-box"
+          v-else
+          @click="isSelected = true"
           >{{ product.price.regularPrice }} {{ product.price.currency }}</span
         >
       </div>
     </section>
+    <div id="selection-bar">
+      <h2>Selected product</h2>
+      <div class="selected-card" v-if="isSelected">
+        <img :src="'/images/' + activeCard.image" alt="product-img" />
+        <p>{{ activeCard.brand }}</p>
+        <h4>{{ activeCard.title }}</h4>
+        <span
+          v-if="activeCard.price.finalPrice < activeCard.price.regularPrice"
+        >
+          <span class="original-price" @click="isSelected = true"
+            >{{ activeCard.price.regularPrice }}
+            {{ activeCard.price.currency }}</span
+          >
+          <span class="discount-price discount-box" @click="isSelected = true"
+            >{{ activeCard.price.finalPrice }}
+            {{ activeCard.price.currency }}</span
+          >
+        </span>
+        <span
+          class="original-price-only original-price-box"
+          v-else
+          @click="isSelected = true"
+          >{{ activeCard.price.regularPrice }}
+          {{ activeCard.price.currency }}</span
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,18 +103,24 @@ export default {
       appTitle,
       products,
       options,
-      activeIndex: undefined,
+      activeIndex: 0,
       search: "",
       sort: "",
-      isSelected: true
+      isSelected: false
     };
   },
   methods: {
     setActive(index) {
       this.activeIndex = index;
+    },
+    showSelected() {
+      this.isSelected = true;
     }
   },
   computed: {
+    activeCard() {
+      return this.products[this.activeIndex];
+    },
     filteredList() {
       let products = this.products.filter(product => {
         return (
@@ -120,14 +164,10 @@ $font: "Roboto", sans-serif;
   padding: 0;
 }
 html {
-  background-color: $background-color1;
+  background-color: $discount-text-color;
 }
 body {
   font-family: $font;
-}
-
-img {
-  max-width: 100%;
 }
 
 .wrapper {
@@ -243,6 +283,15 @@ img {
     border-radius: 5px;
     border: 1px solid #d0d0d0;
     text-align: left;
+    background-color: $background-color2;
+  }
+  .card:hover {
+    border: 3px solid $discount-color;
+    margin: -3px;
+  }
+  .active {
+    border: 3px solid $discount-color;
+    margin: -3px;
   }
   img {
     position: absolute;
@@ -251,6 +300,7 @@ img {
     left: 0%;
     top: 0%;
     border-radius: 5px 0px 0px 5px;
+    cursor: pointer;
   }
   .brand {
     display: block;
@@ -262,12 +312,14 @@ img {
     line-height: 15px;
     letter-spacing: 0em;
     color: $text-color;
+    cursor: pointer;
   }
   .title {
     display: block;
     margin-top: 8px;
     margin-left: 203px;
     padding: 0;
+    cursor: pointer;
   }
   .original-price {
     position: absolute;
@@ -283,11 +335,13 @@ img {
     left: 44.81%;
     top: 68%;
     text-decoration: line-through;
+    cursor: pointer;
   }
 
   .discount-box {
     border-radius: 3px;
     background-color: $discount-color;
+    cursor: pointer;
   }
 
   .discount-price {
@@ -304,6 +358,7 @@ img {
     line-height: 18px;
     letter-spacing: 0em;
     color: $discount-text-color;
+    cursor: pointer;
   }
 
   .original-price-only {
@@ -319,6 +374,7 @@ img {
     font-weight: 700;
     letter-spacing: 0em;
     color: $discount-text-color;
+    cursor: pointer;
   }
 
   .original-price-box {
@@ -326,25 +382,117 @@ img {
     min-width: 68px;
     border-radius: 3px;
     background-color: $discount-color;
-    left: 50%;
+    margin-left: -50px;
     top: 70%;
     padding: 4px;
+    cursor: pointer;
+  }
+}
+
+#selection-bar {
+  margin: 40px 239px 51px 240px;
+  display: grid;
+  grid-gap: 9px;
+  grid-template-rows: repeat(2, 100px);
+  background: $selected-background;
+  min-height: 319px;
+  h2 {
+    height: 29px;
+    width: 190px;
+    margin-top: 40px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 29px;
+    justify-self: center;
+  }
+  .selected-card {
+    position: relative;
+    height: 170px;
+    width: 453px;
+    margin-bottom: 40px;
+    border-radius: 5px;
+    background-color: $background-color2;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    justify-self: center;
+  }
+  img {
+    position: relative;
+    height: 170px;
+    width: 179px;
+    left: 0%;
+    top: 0%;
+    bottom: 0%;
+    border-radius: 5px 0px 0px 5px;
+  }
+  p {
+    position: absolute;
+    height: 15px;
+    width: 135px;
+    left: 203px;
+    top: 42px;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 15px;
+    letter-spacing: 0em;
+    color: $text-color;
+  }
+  h4 {
+    position: absolute;
+    height: 20px;
+    width: 182px;
+    left: 44.81%;
+    top: 38.24%;
+    font-family: $font;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+  }
+  .original-price {
+    position: absolute;
+    height: 15px;
+    width: 70px;
+    font-family: $font;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    color: $price-color;
+    line-height: 15px;
+    letter-spacing: 0em;
+    left: 44.81%;
+    top: 62.35%;
+    text-decoration: line-through;
+  }
+  .discount-box {
+    position: absolute;
+    min-width: 68px;
+    border-radius: 3px;
+    background-color: $discount-color;
+    left: 59.82%;
+    top: 59.41%;
+  }
+  .discount-price {
+    position: absolute;
+    height: 23px;
+    width: 80px;
+    padding-top: 4px;
+    margin-left: 20px;
+    font-family: $font;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0em;
+    color: $discount-text-color;
+    text-align: center;
   }
 }
 
 /* Media Queries */
-@media (max-width: 700px) {
-  .top-container {
-    grid-template-areas:
-      "category category "
-      "search search"
-      "sortby sortby";
-  }
-
-  .main-nav ul {
-    grid-template-columns: 1fr;
-  }
-}
 
 @media (max-width: 500px) {
   .top-container {
@@ -355,7 +503,19 @@ img {
   }
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 900px) {
+  .top-container {
+    grid-template-areas:
+      "category category "
+      "search search"
+      "sortby sortby";
+  }
+  .cards .discount-price {
+    left: 74%;
+  }
+}
+
+@media (max-width: 1024px) {
   .top-container {
     grid-template-areas:
       "category"
@@ -363,7 +523,7 @@ img {
       "sortby";
     justify-content: center;
     h3 {
-    justify-content: center;
+      justify-content: center;
     }
   }
   .sortby {
@@ -376,16 +536,38 @@ img {
   .top-container {
     margin-bottom: 30px;
   }
-  .cards .original-price-only {
-    margin-left: 50px;
-    margin-top: 14px;
+  .cards .original-price-box {
+    left: 43%;
   }
   .cards .discount-price {
-    margin-top: 14px;
+    left: 63%;
   }
-  .cards .original-price{
-    margin-top: -5px;
-    margin-left: 95px;
+  .cards .original-price {
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .cards {
+    display: grid;
+    grid-gap: 41px;
+    column-gap: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+}
+
+@media (max-width: 1660px) {
+  .cards .discount-price {
+    margin-top: 18px;
+    margin-left: -80px;
+  }
+  .cards .brand {
+    margin-top: 20px;
+  }
+  .cards .original-price-only {
+    margin-left: 8px !important;
+    margin-top: 15px;
   }
 }
 
@@ -393,6 +575,14 @@ img {
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 3fr));
+  }
+  .cards .original-price-box {
+    margin-left: -40px;
+  }
+  .cards .original-price {
+  }
+  .cards .original-price-only {
+    margin-left: -20px;
   }
 }
 </style>
