@@ -1,19 +1,17 @@
 <template>
-  <div class="wrapper">
+  <div id="wrapper">
     <nav class="main-nav">
-      <ul>
-        <li>
           <a href="#">{{ appTitle }}</a>
-        </li>
-      </ul>
     </nav>
 
-    <section class="top-container">
-      <h3 class="category">Categories</h3>
-      <div class="search">
+    <div class="top-container">
+      <div id="category">
+        <h3>Categories</h3>
+      </div>
+      <div id="search">
         <input type="text" placeholder="Search" v-model="search" />
       </div>
-      <div class="sortby">
+      <div id="sortby">
         <select v-model="sort">
           <option value="" selected>Sort By</option>
           <option
@@ -24,7 +22,7 @@
           ></option>
         </select>
       </div>
-    </section>
+    </div>
 
     <section class="cards">
       <div
@@ -162,50 +160,49 @@ $font: "Roboto", sans-serif;
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 html {
   background-color: $discount-text-color;
+  width: 100%;
+  margin: 0 auto;
+  
 }
 body {
   font-family: $font;
 }
 
-.wrapper {
-  z-index: -1;
-  display: grid;
-  height: 100vh;
+#wrapper {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  min-width: 240px;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 .main-nav {
+  grid-area: navbar;
   background-color: $discount-text-color;
-  position: fixed;
-  width: 100%;
   z-index: 1;
-  margin-bottom: 20px;
-  ul {
-    padding: 0;
-    list-style: none;
-    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
-    min-height: 75px;
-    min-width: 95px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
   a {
-    margin-top: 26px;
-    margin-bottom: 26px;
+    width: 100%;
+    display: block;
+    float: left;
+    padding: 20px 26px;
     text-transform: uppercase;
     line-height: 23px;
-    text-align: left;
     color: $text-color;
     cursor: pointer;
-    place-items: start;
-    margin-left: 5rem;
-    grid-auto-flow: column;
     align-content: space-evenly;
     font-style: normal;
     font-weight: 400;
-    display: grid;
     text-decoration: none;
     font-size: 20px;
     letter-spacing: 0em;
@@ -213,89 +210,93 @@ body {
 }
 
 .top-container {
-  margin: 0 239px 0 240px;
   display: grid;
+  z-index: -1;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   grid-template-areas:
-    "category category "
-    "search  sortby";
-  justify-items: space-between;
-  h3 {
-    grid-area: category;
-    width: 102px;
-    height: 29px;
-    margin-top: 105px;
-    margin-bottom: 30px;
-    font-family: $font;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 29px;
-    color: $text-color;
-    cursor: default;
+    "category category category category"
+    "search search sortby sortby";
+    #category{
+      h3{
+          grid-area: category;
+          width: 102px;
+          height: 29px;
+          font-family: $font;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 25px;
+          line-height: 29px;
+          color: $text-color;
+          cursor: default;
+      }
+          
   }
-  input {
-    grid-area: search;
-    width: 453px;
-    height: 48px;
-    background: $discount-text-color;
-    border: 1px solid $price-color;
-    color: $price-color;
-    border-radius: 5px;
-    padding-left: 52px;
-    background-image: url(../../public/images/icons/search-icon.svg);
-    background-repeat: no-repeat;
-    background-position: 19px center;
-    box-sizing: border-box;
-    margin-bottom: 30px;
+    #search {
+        grid-area: search;
+      input {
+        width: 453px;
+        height: 48px;
+        margin-bottom: 30px;
+        background: $discount-text-color;
+        border: 1px solid $price-color;
+        color: $price-color;
+        border-radius: 5px;
+        padding-left: 52px;
+        background-image: url(../../public/images/icons/search-icon.svg);
+        background-repeat: no-repeat;
+        background-position: 19px center;
+        box-sizing: border-box;
+      }
+    
   }
 
-  select {
-    margin-left: auto;
+  #sortby {
     grid-area: sortby;
-    width: 330px;
-    height: 48px;
-    padding-left: 16px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background: $discount-text-color;
-    border: 1px solid $price-color;
-    color: $price-color;
-    border-radius: 5px;
-    display: grid;
-    box-sizing: border-box;
+    position: relative;
+    select {
+      margin-bottom: 30px;
+      width: 330px;
+      height: 48px;
+      padding-left: 16px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      background: $discount-text-color;
+      border: 1px solid $price-color;
+      color: $price-color;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
   }
 }
 
 .cards {
-  margin: 0 239px 0 240px;
   display: grid;
   grid-gap: 41px;
-  column-gap: 40px;
-  grid-template-columns: repeat(auto-fill, minmax(410px, 3fr));
+  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+  
   .card {
     position: relative;
-    text-align: center;
     display: block;
     height: 170px;
-    max-width: 453px;
-    left: 0px;
-    top: 0px;
+    width: 100%;
     border-radius: 5px;
     border: 1px solid #d0d0d0;
-    text-align: left;
     background-color: $background-color2;
+    &:hover {
+      border: 3px solid $discount-color;
+      margin: -3px;
+    }
+    
   }
-  .card:hover {
-    border: 3px solid $discount-color;
-    margin: -3px;
-  }
+  
   .active {
     border: 3px solid $discount-color;
     margin: -3px;
   }
   img {
     position: absolute;
-    width: 179px;
+    max-width: 179px;
     height: 100%;
     left: 0%;
     top: 0%;
@@ -304,8 +305,9 @@ body {
   }
   .brand {
     display: block;
-    margin-left: 203px;
-    margin-top: 42px;
+    position: relative;
+    left: 200px;
+    top: 20px;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -315,16 +317,16 @@ body {
     cursor: pointer;
   }
   .title {
-    display: block;
-    margin-top: 8px;
-    margin-left: 203px;
+    position: absolute;
+    top: 40px;
+    left: 200px;
     padding: 0;
     cursor: pointer;
   }
   .original-price {
     position: absolute;
     height: 15px;
-    width: 70px;
+    width: 100%;
     font-family: $font;
     font-size: 13px;
     font-style: normal;
@@ -346,9 +348,9 @@ body {
 
   .discount-price {
     position: absolute;
-    min-width: 60px;
+    width: auto;
     top: 70%;
-    left: 80%;
+    left: 70%;
     margin: -10px 0px 0px -36px;
     padding: 4px;
     font-family: $font;
@@ -364,7 +366,7 @@ body {
   .original-price-only {
     position: absolute;
     min-height: 18px;
-    width: 80px;
+    width: auto;
     left: 55%;
     top: 79%;
     margin: -10px 0px 0px -36px;
@@ -379,7 +381,7 @@ body {
 
   .original-price-box {
     position: absolute;
-    min-width: 68px;
+    width: auto;
     border-radius: 3px;
     background-color: $discount-color;
     margin-left: -50px;
@@ -390,15 +392,15 @@ body {
 }
 
 #selection-bar {
-  margin: 40px 239px 51px 240px;
   display: grid;
   grid-gap: 9px;
   grid-template-rows: repeat(2, 100px);
   background: $selected-background;
   min-height: 319px;
+  margin-bottom: 30px;
   h2 {
     height: 29px;
-    width: 190px;
+    width: auto;
     margin-top: 40px;
     font-style: normal;
     font-weight: 500;
@@ -409,8 +411,7 @@ body {
   .selected-card {
     position: relative;
     height: 170px;
-    width: 453px;
-    margin-bottom: 40px;
+    width: 100%;
     border-radius: 5px;
     background-color: $background-color2;
     border: 1px solid $border-color;
@@ -419,7 +420,7 @@ body {
   }
   img {
     position: relative;
-    height: 170px;
+    height: 100%;
     width: 179px;
     left: 0%;
     top: 0%;
@@ -464,7 +465,7 @@ body {
     line-height: 15px;
     letter-spacing: 0em;
     left: 44.81%;
-    top: 62.35%;
+    top: 75%;
     text-decoration: line-through;
   }
   .discount-box {
@@ -473,7 +474,7 @@ body {
     border-radius: 3px;
     background-color: $discount-color;
     left: 59.82%;
-    top: 59.41%;
+    top: 70%;
   }
   .discount-price {
     position: absolute;
@@ -490,99 +491,127 @@ body {
     color: $discount-text-color;
     text-align: center;
   }
+
+  .original-price-only {
+    position: absolute;
+    min-height: 18px;
+    width: 80px;
+    left: 55%;
+    top: 79%;
+    margin: -10px 0px 0px -36px;
+    font-family: $font;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0em;
+    color: $discount-text-color;
+    cursor: pointer;
+  }
+
+  .original-price-box {
+    position: absolute;
+    min-width: 68px;
+    border-radius: 3px;
+    background-color: $discount-color;
+    margin-left: -20px;
+    top: 70%;
+    padding: 4px;
+    cursor: pointer;
+  }
 }
 
 /* Media Queries */
 
 @media (max-width: 500px) {
-  .top-container {
-    grid-template-areas:
-      "category"
-      "search"
-      "sortby";
+  body {
+    font-size:12px;
   }
-}
 
-@media (max-width: 900px) {
-  .top-container {
-    grid-template-areas:
-      "category category "
-      "search search"
-      "sortby sortby";
-  }
-  .cards .discount-price {
-    left: 74%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .top-container {
-    grid-template-areas:
-      "category"
-      "search"
-      "sortby";
-    justify-content: center;
-    h3 {
-      justify-content: center;
+  .main-nav {
+    height: 2rem;
+    a {
+    padding: 5px 20px;
+    font-size: 10px;
     }
   }
-  .sortby {
-    display: grid;
-    justify-content: center;
-    .select {
-      margin: 0 0 30px 0;
+  .cards {
+    margin: 0 0 10px 0;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
+    .card {
+      .brand {
+        top: 11px;
+      }
+      width: 100%;
+      .original-price {
+        left: 12.5rem;
+        top: 6rem;
+      }
+      .original-price-only {
+        margin-left: 30px;
+        width: auto;
+      }
+      .discount-price {
+        left: 14.5rem;
+        top: 8.5rem;
+      }
     }
   }
   .top-container {
+    margin: 0;
+    padding-top: 40px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+    input {
+      max-width: 300px;
+    }
+    select {
+      max-width: 300px;
+    }
+  }
+  #selection-bar {
+    margin: 0;
     margin-bottom: 30px;
-  }
-  .cards .original-price-box {
-    left: 43%;
-  }
-  .cards .discount-price {
-    left: 63%;
-  }
-  .cards .original-price {
-    margin-top: 2px;
-    margin-left: 2px;
-  }
-}
-
-@media (max-width: 1400px) {
-  .cards {
-    display: grid;
-    grid-gap: 41px;
-    column-gap: 40px;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  }
-}
-
-@media (max-width: 1660px) {
-  .cards .discount-price {
-    margin-top: 18px;
-    margin-left: -80px;
-  }
-  .cards .brand {
-    margin-top: 20px;
-  }
-  .cards .original-price-only {
-    margin-left: 8px !important;
-    margin-top: 15px;
+    .original-price-only {
+      margin-left: 25px;
+      margin-top: 5px;
+      width: auto;
+    }
+    p {
+      margin-top: -22px;
+    }
+    h4 {
+      margin-left: 60px;
+      margin-top: -20px;
+      width: auto;
+    }
+     .original-price {
+        margin-left: 60px;
+        margin-top: -20px;
+      }
+       .discount-price {
+        margin-left: 5px;
+        margin-top: 10px;
+      }
   }
 }
-
-@media (max-width: 1800px) {
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 3fr));
+// Large devices (desktops, 992px and up)
+@media (max-width: 992px) {
+  .main-nav {
+    grid-template-areas:
+    "navbar";
   }
-  .cards .original-price-box {
-    margin-left: -40px;
-  }
-  .cards .original-price {
-  }
-  .cards .original-price-only {
-    margin-left: -20px;
+  .top-container {
+    grid-template-areas:
+      "category"
+      "search"
+      "sortby";
   }
 }
+// Extra large devices (desktops, 1440px and down)
+@media (min-width: 1440px) {
+  }
 </style>
