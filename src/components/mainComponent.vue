@@ -160,12 +160,12 @@ $font: "Roboto", sans-serif;
 * {
   margin: 0;
   padding: 0;
+  border: 0;
   box-sizing: border-box;
+  
 }
 html {
   background-color: $discount-text-color;
-  width: 100%;
-  margin: 0 auto;
   
 }
 body {
@@ -192,7 +192,6 @@ body {
   width: 100%;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
   a {
-    width: 100%;
     display: block;
     float: left;
     padding: 20px 26px;
@@ -212,11 +211,11 @@ body {
 .top-container {
   display: grid;
   z-index: -1;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   grid-template-areas:
-    "category category category category"
-    "search search sortby sortby";
+    "category category"
+    "search sortby";
     #category{
       h3{
           grid-area: category;
@@ -273,7 +272,7 @@ body {
 .cards {
   display: grid;
   grid-gap: 41px;
-  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   
   .card {
     position: relative;
@@ -526,8 +525,10 @@ body {
   body {
     font-size:12px;
   }
-
+  
   .main-nav {
+    grid-template-areas:
+    "navbar";
     height: 2rem;
     a {
     padding: 5px 20px;
@@ -560,6 +561,10 @@ body {
     }
   }
   .top-container {
+    grid-template-areas:
+      "category"
+      "search"
+      "sortby";
     margin: 0;
     padding-top: 40px;
     grid-template-columns: 1fr;
@@ -599,7 +604,7 @@ body {
   }
 }
 // Large devices (desktops, 992px and up)
-@media (max-width: 992px) {
+@media (min-width: 992px) {
   .main-nav {
     grid-template-areas:
     "navbar";
