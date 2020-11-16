@@ -173,12 +173,16 @@ body {
 }
 
 #wrapper {
-  position: relative;
-  top: 0;
-  left: 0;
+  // position: relative;
+  // top: 0;
+  // left: 0;
+  // height: 100%;
+  // width: 100%;
+  // min-width: 240px;
+  // max-width: 1024px;
+  // margin: 0 auto;
+  overflow-x: hidden; // this prevent horizontal scroll
   height: 100%;
-  width: 100%;
-  min-width: 240px;
   max-width: 1024px;
   margin: 0 auto;
 }
@@ -209,13 +213,17 @@ body {
 }
 
 .top-container {
+  margin-top: 6rem;
   display: grid;
   z-index: -1;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   grid-template-areas:
     "category category"
-    "search sortby";
+    "search search"
+    "sortby sortby ";
+    justify-items: center;
+    align-items: center;
     #category{
       h3{
           grid-area: category;
@@ -236,7 +244,6 @@ body {
       input {
         width: 453px;
         height: 48px;
-        margin-bottom: 30px;
         background: $discount-text-color;
         border: 1px solid $price-color;
         color: $price-color;
@@ -271,8 +278,10 @@ body {
 
 .cards {
   display: grid;
-  grid-gap: 41px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 0 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  // grid-gap: 41px;
+  // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   
   .card {
     position: relative;
@@ -410,7 +419,7 @@ body {
   .selected-card {
     position: relative;
     height: 170px;
-    width: 100%;
+    max-width: 453px;
     border-radius: 5px;
     background-color: $background-color2;
     border: 1px solid $border-color;
@@ -442,7 +451,7 @@ body {
   h4 {
     position: absolute;
     height: 20px;
-    width: 182px;
+    width: auto;
     left: 44.81%;
     top: 38.24%;
     font-family: $font;
@@ -494,7 +503,7 @@ body {
   .original-price-only {
     position: absolute;
     min-height: 18px;
-    width: 80px;
+    width: auto;
     left: 55%;
     top: 79%;
     margin: -10px 0px 0px -36px;
@@ -551,7 +560,7 @@ body {
         top: 6rem;
       }
       .original-price-only {
-        margin-left: 30px;
+        left: 250px;
         width: auto;
       }
       .discount-price {
@@ -570,51 +579,95 @@ body {
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
-    input {
-      max-width: 300px;
+    #search input {
+      width: 300px;
     }
-    select {
-      max-width: 300px;
+     #sortby select {
+      width: 300px;
     }
   }
   #selection-bar {
     margin: 0;
     margin-bottom: 30px;
+    .selected-card {
     .original-price-only {
       margin-left: 25px;
       margin-top: 5px;
       width: auto;
     }
     p {
-      margin-top: -22px;
+      top: 2%;
     }
     h4 {
-      margin-left: 60px;
-      margin-top: -20px;
+      left: 1%;
+      top: 20%;
       width: auto;
     }
      .original-price {
-        margin-left: 60px;
-        margin-top: -20px;
+      left: 12.5rem;
+      top: 6rem;
       }
-       .discount-price {
-        margin-left: 5px;
-        margin-top: 10px;
+      .discount-price {
+        left: 10.5rem;
+        top: 8.5rem;
       }
+  }
   }
 }
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {
-  .main-nav {
-    grid-template-areas:
-    "navbar";
-  }
+@media (max-width: 992px) {
   .top-container {
-    grid-template-areas:
-      "category"
-      "search"
-      "sortby";
+      gap: 1rem;
+  #category h3{
+    top: 90px;
+    left: 50px;
+    padding-bottom: 1rem;
   }
+  select option{
+    width: 5px;
+    padding: 0;
+    }
+  }
+
+  .cards {
+     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+     gap: 1rem;
+     .original-price-only {
+       left: 70%;
+     }
+     .original-price {
+       left: 50%;
+     }
+     .discount-price {
+       left: 82%;
+     }
+  }
+  #selection-bar{
+    margin-top: 30px;
+    .selected-card {
+      width: 360px;
+      p {
+        top: 10%;
+      }
+      h4 {
+        left: 56%;
+        top: 22%;
+      }
+      .original-price-only {
+        width: auto;
+        left: 11rem;
+        top: 6rem;
+      }
+      .original-price {
+        left: 12.8rem;
+        top: 6rem;
+      }
+      .discount-price {
+         left: 11rem;
+        top: 7.5rem;
+      }
+  }
+  }
+  
 }
 // Extra large devices (desktops, 1440px and down)
 @media (min-width: 1440px) {
