@@ -173,14 +173,7 @@ body {
 }
 
 #wrapper {
-  // position: relative;
-  // top: 0;
-  // left: 0;
-  // height: 100%;
-  // width: 100%;
-  // min-width: 240px;
-  // max-width: 1024px;
-  // margin: 0 auto;
+  max-width: 1024px;
   overflow-x: hidden; // this prevent horizontal scroll
   height: 100%;
   max-width: 1024px;
@@ -280,8 +273,6 @@ body {
   display: grid;
   padding: 0 1rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  // grid-gap: 41px;
-  // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   
   .card {
     position: relative;
@@ -554,13 +545,16 @@ body {
       .brand {
         top: 11px;
       }
+      .title {
+        font-weight: 500;
+      }
       width: 100%;
       .original-price {
         left: 12.5rem;
         top: 6rem;
       }
       .original-price-only {
-        left: 250px;
+        left: 240px;
         width: auto;
       }
       .discount-price {
@@ -574,6 +568,7 @@ body {
       "category"
       "search"
       "sortby";
+      gap: 1rem;
     margin: 0;
     padding-top: 40px;
     grid-template-columns: 1fr;
@@ -590,31 +585,40 @@ body {
     margin: 0;
     margin-bottom: 30px;
     .selected-card {
+      width: 90%;
     .original-price-only {
-      margin-left: 25px;
-      margin-top: 5px;
+      left: 13.5rem;
+      top: 8.6rem;
       width: auto;
     }
     p {
-      top: 2%;
+      left: 13rem;
+      top: 0.8rem;
     }
     h4 {
-      left: 1%;
-      top: 20%;
+      font-size: 12px;
+      line-height: 1.1;
+      left: 13rem;
+      top: 2.6rem;
       width: auto;
+
     }
      .original-price {
       left: 12.5rem;
-      top: 6rem;
+      top: 7rem;
       }
       .discount-price {
-        left: 10.5rem;
+        width: auto;
+        margin: 0;
+        padding: 5px;
+        left: 12.5rem;
         top: 8.5rem;
+        padding-top: 3px;
       }
   }
   }
 }
-@media (max-width: 992px) {
+@media screen and (max-width: 992px) and (min-width: 500.1px) {
   .top-container {
       gap: 1rem;
   #category h3{
@@ -625,6 +629,9 @@ body {
   select option{
     width: 5px;
     padding: 0;
+    }
+    #sortby select {
+      width: 453px;
     }
   }
 
