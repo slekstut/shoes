@@ -173,30 +173,33 @@ body {
 }
 
 #wrapper {
-  max-width: 1024px;
   overflow-x: hidden; // this prevent horizontal scroll
   height: 100%;
-  max-width: 1024px;
+  // max-width: 1024px;
   margin: 0 auto;
 }
 
 .main-nav {
-  grid-area: navbar;
+  // grid-area: navbar;
   background-color: $discount-text-color;
   z-index: 1;
   position: fixed;
-  top: 0;
+  // top: 0;
+  margin: 0;
+  padding: 0;
   width: 100%;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
   a {
     display: block;
-    float: left;
+  //   margin: 0;
+  // padding: 0;
+    // float: left;
     padding: 20px 26px;
     text-transform: uppercase;
     line-height: 23px;
     color: $text-color;
     cursor: pointer;
-    align-content: space-evenly;
+    // align-content: space-evenly;
     font-style: normal;
     font-weight: 400;
     text-decoration: none;
@@ -480,7 +483,6 @@ body {
     height: 23px;
     width: 80px;
     padding-top: 4px;
-    margin-left: 20px;
     font-family: $font;
     font-size: 15px;
     font-style: normal;
@@ -527,8 +529,6 @@ body {
   }
   
   .main-nav {
-    grid-template-areas:
-    "navbar";
     height: 2rem;
     a {
     padding: 5px 20px;
@@ -638,6 +638,9 @@ body {
   .cards {
      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
      gap: 1rem;
+     .title{
+       font-weight: 500;
+     }
      .original-price-only {
        left: 70%;
      }
@@ -661,22 +664,134 @@ body {
       }
       .original-price-only {
         width: auto;
-        left: 11rem;
-        top: 6rem;
+        left: 14rem;
+        top: 8.8rem;
       }
       .original-price {
         left: 12.8rem;
-        top: 6rem;
+        top: 7rem;
       }
       .discount-price {
-         left: 11rem;
-        top: 7.5rem;
+        margin: 0;
+        left: 12.5rem;
+        top: 8.5rem;
       }
   }
   }
   
 }
-// Extra large devices (desktops, 1440px and down)
-@media (min-width: 1440px) {
+@media screen and (max-width: 1440px) and (min-width: 992.1px) {
+  .main-nav {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    a {
+      // width: auto;
+    }
+  }
+  .top-container {
+    grid-template-areas:
+      "category category"
+      "search sortby";
+    gap: 1rem;
+    column-gap: 3rem;
+    margin: 0;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    #sortby select {
+      margin: 0;
+      width: 453px;
+    }
+  }
+  .cards {
+    display: grid;
+    padding: 0 1rem;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    .title {
+      font-weight: 500;
+    }
+  }
+#selection-bar{
+    margin-top: 30px;
+    .selected-card {
+      width: 484px;
+      p {
+        top: 10%;
+      }
+      h4 {
+        left: 45%;
+        top: 22%;
+      }
+      .original-price-only {
+        width: auto;
+        left: 14rem;
+        top: 8.8rem;
+      }
+      .original-price {
+        left: 12.8rem;
+        top: 7rem;
+      }
+      .discount-price {
+        margin: 0;
+        left: 12.5rem;
+        top: 8.5rem;
+      }
+  }
+  }
+  
+  }
+  @media screen and (min-width: 1440.01px) {
+  .top-container {
+    grid-template-areas:
+      "category category"
+      "search sortby";
+    gap: 1rem;
+    column-gap: 3rem;
+    margin: 0;
+    padding-top: 5%;
+    padding-bottom: 30px;
+    #sortby select {
+      margin: 0;
+      width: 453px;
+    }
+  }
+  .cards {
+    display: grid;
+    padding: 0 1rem;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(453px, 1fr));
+    .title {
+      font-weight: 500;
+    }
+  }
+#selection-bar{
+    margin-top: 30px;
+    .selected-card {
+      width: 484px;
+      p {
+        top: 10%;
+      }
+      h4 {
+        left: 45%;
+        top: 22%;
+      }
+      .original-price-only {
+        width: auto;
+        left: 14rem;
+        top: 8.8rem;
+      }
+      .original-price {
+        left: 12.8rem;
+        top: 7rem;
+      }
+      .discount-price {
+        margin: 0;
+        left: 12.5rem;
+        top: 8.5rem;
+      }
+  }
+  }
+  
   }
 </style>
