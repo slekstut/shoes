@@ -1,29 +1,7 @@
 <template>
   <div id="wrapper">
-    <nav class="main-nav">
-          <a href="#">{{ appTitle }}</a>
-    </nav>
-
-    <div class="top-container">
-      <div id="category">
-        <h3>Categories</h3>
-      </div>
-      <div id="search">
-        <input type="text" placeholder="Search" v-model="search" />
-      </div>
-      <div id="sortby">
-        <select v-model="sort">
-          <option value="" selected>Sort By</option>
-          <option
-            v-for="option in options"
-            :key="option.label"
-            :label="option.label"
-            :value="option.value"
-          ></option>
-        </select>
-      </div>
-    </div>
-
+    <navbar :appTitle="appTitle" />
+    <categories :search="search" @selected="onSelected" :filteredList="filteredList" @query-change="setSearchValue"/>
     <section class="cards">
       <div
         class="card"
@@ -90,21 +68,26 @@
 </template>
 
 <script>
+import navbar from "./navbar.vue";
+import categories from "./categories.vue";
+
 import { appTitle } from "../data/data";
 import { products } from "../data/data";
-import { options } from "../data/data";
 
 export default {
   name: "mainComponent",
+  components: {
+    navbar,
+    categories,
+  },
   data() {
     return {
       appTitle,
       products,
-      options,
       activeIndex: 0,
       search: "",
       sort: "",
-      isSelected: false
+      isSelected: false,
     };
   },
   methods: {
@@ -113,6 +96,13 @@ export default {
     },
     showSelected() {
       this.isSelected = true;
+    },
+    setSearchValue(value) {
+      this.search = value;
+    },
+    onSelected(value){
+      this.sort = value;
+      console.log(value[0]);
     }
   },
   computed: {
@@ -120,7 +110,7 @@ export default {
       return this.products[this.activeIndex];
     },
     filteredList() {
-      let products = this.products.filter(product => {
+      let products = this.products.filter((product) => {
         return (
           product.brand.toLowerCase().includes(this.search.toLowerCase()) ||
           product.title.toLowerCase().includes(this.search.toLowerCase()) ||
@@ -141,8 +131,8 @@ export default {
       } else {
         return products;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -162,11 +152,9 @@ $font: "Roboto", sans-serif;
   padding: 0;
   border: 0;
   box-sizing: border-box;
-  
 }
 html {
   background-color: $discount-text-color;
-  
 }
 body {
   font-family: $font;
@@ -175,37 +163,7 @@ body {
 #wrapper {
   overflow-x: hidden; // this prevent horizontal scroll
   height: 100%;
-  // max-width: 1024px;
   margin: 0 auto;
-}
-
-.main-nav {
-  // grid-area: navbar;
-  background-color: $discount-text-color;
-  z-index: 1;
-  position: fixed;
-  // top: 0;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
-  a {
-    display: block;
-  //   margin: 0;
-  // padding: 0;
-    // float: left;
-    padding: 20px 26px;
-    text-transform: uppercase;
-    line-height: 23px;
-    color: $text-color;
-    cursor: pointer;
-    // align-content: space-evenly;
-    font-style: normal;
-    font-weight: 400;
-    text-decoration: none;
-    font-size: 20px;
-    letter-spacing: 0em;
-  }
 }
 
 .top-container {
@@ -218,39 +176,37 @@ body {
     "category category"
     "search search"
     "sortby sortby ";
-    justify-items: center;
-    align-items: center;
-    #category{
-      h3{
-          grid-area: category;
-          width: 102px;
-          height: 29px;
-          font-family: $font;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 25px;
-          line-height: 29px;
-          color: $text-color;
-          cursor: default;
-      }
-          
+  justify-items: center;
+  align-items: center;
+  #category {
+    h3 {
+      grid-area: category;
+      width: 102px;
+      height: 29px;
+      font-family: $font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 25px;
+      line-height: 29px;
+      color: $text-color;
+      cursor: default;
+    }
   }
-    #search {
-        grid-area: search;
-      input {
-        width: 453px;
-        height: 48px;
-        background: $discount-text-color;
-        border: 1px solid $price-color;
-        color: $price-color;
-        border-radius: 5px;
-        padding-left: 52px;
-        background-image: url(../../public/images/icons/search-icon.svg);
-        background-repeat: no-repeat;
-        background-position: 19px center;
-        box-sizing: border-box;
-      }
-    
+  #search {
+    grid-area: search;
+    input {
+      width: 453px;
+      height: 48px;
+      background: $discount-text-color;
+      border: 1px solid $price-color;
+      color: $price-color;
+      border-radius: 5px;
+      padding-left: 52px;
+      background-image: url(../../public/images/icons/search-icon.svg);
+      background-repeat: no-repeat;
+      background-position: 19px center;
+      box-sizing: border-box;
+    }
   }
 
   #sortby {
@@ -276,7 +232,7 @@ body {
   display: grid;
   padding: 0 1rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  
+
   .card {
     position: relative;
     display: block;
@@ -289,9 +245,8 @@ body {
       border: 3px solid $discount-color;
       margin: -3px;
     }
-    
   }
-  
+
   .active {
     border: 3px solid $discount-color;
     margin: -3px;
@@ -525,14 +480,14 @@ body {
 
 @media (max-width: 500px) {
   body {
-    font-size:12px;
+    font-size: 12px;
   }
-  
+
   .main-nav {
     height: 2rem;
     a {
-    padding: 5px 20px;
-    font-size: 10px;
+      padding: 5px 20px;
+      font-size: 10px;
     }
   }
   .cards {
@@ -568,7 +523,7 @@ body {
       "category"
       "search"
       "sortby";
-      gap: 1rem;
+    gap: 1rem;
     margin: 0;
     padding-top: 40px;
     grid-template-columns: 1fr;
@@ -577,7 +532,7 @@ body {
     #search input {
       width: 300px;
     }
-     #sortby select {
+    #sortby select {
       width: 300px;
     }
   }
@@ -586,26 +541,25 @@ body {
     margin-bottom: 30px;
     .selected-card {
       width: 90%;
-    .original-price-only {
-      left: 13.5rem;
-      top: 8.6rem;
-      width: auto;
-    }
-    p {
-      left: 13rem;
-      top: 0.8rem;
-    }
-    h4 {
-      font-size: 12px;
-      line-height: 1.1;
-      left: 13rem;
-      top: 2.6rem;
-      width: auto;
-
-    }
-     .original-price {
-      left: 12.5rem;
-      top: 7rem;
+      .original-price-only {
+        left: 13.5rem;
+        top: 8.6rem;
+        width: auto;
+      }
+      p {
+        left: 13rem;
+        top: 0.8rem;
+      }
+      h4 {
+        font-size: 12px;
+        line-height: 1.1;
+        left: 13rem;
+        top: 2.6rem;
+        width: auto;
+      }
+      .original-price {
+        left: 12.5rem;
+        top: 7rem;
       }
       .discount-price {
         width: auto;
@@ -615,20 +569,20 @@ body {
         top: 8.5rem;
         padding-top: 3px;
       }
-  }
+    }
   }
 }
 @media screen and (max-width: 992px) and (min-width: 500.1px) {
   .top-container {
-      gap: 1rem;
-  #category h3{
-    top: 90px;
-    left: 50px;
-    padding-bottom: 1rem;
-  }
-  select option{
-    width: 5px;
-    padding: 0;
+    gap: 1rem;
+    #category h3 {
+      top: 90px;
+      left: 50px;
+      padding-bottom: 1rem;
+    }
+    select option {
+      width: 5px;
+      padding: 0;
     }
     #sortby select {
       width: 453px;
@@ -636,22 +590,22 @@ body {
   }
 
   .cards {
-     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-     gap: 1rem;
-     .title{
-       font-weight: 500;
-     }
-     .original-price-only {
-       left: 70%;
-     }
-     .original-price {
-       left: 50%;
-     }
-     .discount-price {
-       left: 82%;
-     }
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    .title {
+      font-weight: 500;
+    }
+    .original-price-only {
+      left: 70%;
+    }
+    .original-price {
+      left: 50%;
+    }
+    .discount-price {
+      left: 82%;
+    }
   }
-  #selection-bar{
+  #selection-bar {
     margin-top: 30px;
     .selected-card {
       width: 360px;
@@ -676,18 +630,14 @@ body {
         left: 12.5rem;
         top: 8.5rem;
       }
+    }
   }
-  }
-  
 }
 @media screen and (max-width: 1440px) and (min-width: 992.1px) {
   .main-nav {
     width: 100%;
     padding: 0;
     margin: 0;
-    a {
-      // width: auto;
-    }
   }
   .top-container {
     grid-template-areas:
@@ -712,7 +662,7 @@ body {
       font-weight: 500;
     }
   }
-#selection-bar{
+  #selection-bar {
     margin-top: 30px;
     .selected-card {
       width: 484px;
@@ -737,11 +687,10 @@ body {
         left: 12.5rem;
         top: 8.5rem;
       }
+    }
   }
-  }
-  
-  }
-  @media screen and (min-width: 1440.01px) {
+}
+@media screen and (min-width: 1440.01px) {
   .top-container {
     grid-template-areas:
       "category category"
@@ -765,7 +714,7 @@ body {
       font-weight: 500;
     }
   }
-#selection-bar{
+  #selection-bar {
     margin-top: 30px;
     .selected-card {
       width: 484px;
@@ -790,8 +739,7 @@ body {
         left: 12.5rem;
         top: 8.5rem;
       }
+    }
   }
-  }
-  
-  }
+}
 </style>

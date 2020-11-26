@@ -1,9 +1,9 @@
 export const appTitle = "Shoes Catalog";
 
 export const options = [
-  { label: "Brand [A - Z]", value: "brand" },
-  { label: "Title [A - Z]", value: "title" },
-  { label: "Price [High - Low]", value: "finalPrice" }
+  { id: 0, label: "Brand [A - Z]", value: "brand" },
+  { id: 1, label: "Title [A - Z]", value: "title" },
+  { id: 2, label: "Price [High - Low]", value: "finalPrice" }
 ];
 
 export const products = [
