@@ -3,7 +3,7 @@ export const appTitle = "Shoes Catalog";
 export const options = [
   { id: 0, label: "Brand [A - Z]", value: "brand" },
   { id: 1, label: "Title [A - Z]", value: "title" },
-  { id: 2, label: "Price [High - Low]", value: "finalPrice" }
+  { id: 2, label: "Price [High - Low]", value: "finalPrice" },
 ];
 
 export const products = [
@@ -15,9 +15,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 125.99,
-      finalPrice: 125.99
+      finalPrice: 125.99,
     },
-    image: "1.webp"
+    image: "1.webp",
   },
   {
     id: 2,
@@ -27,9 +27,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 131.99,
-      finalPrice: 105.6
+      finalPrice: 105.6,
     },
-    image: "2.webp"
+    image: "2.webp",
   },
   {
     id: 3,
@@ -39,9 +39,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 159.99,
-      finalPrice: 99.99
+      finalPrice: 99.99,
     },
-    image: "3.webp"
+    image: "3.webp",
   },
   {
     id: 4,
@@ -51,9 +51,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 107.99,
-      finalPrice: 107.99
+      finalPrice: 107.99,
     },
-    image: "4.webp"
+    image: "4.webp",
   },
   {
     id: 5,
@@ -63,9 +63,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 77.99,
-      finalPrice: 77.99
+      finalPrice: 77.99,
     },
-    image: "5.webp"
+    image: "5.webp",
   },
   {
     id: 6,
@@ -75,9 +75,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 83.99,
-      finalPrice: 42.0
+      finalPrice: 42.0,
     },
-    image: "6.webp"
+    image: "6.webp",
   },
   {
     id: 7,
@@ -87,9 +87,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 101.99,
-      finalPrice: 74.4
+      finalPrice: 74.4,
     },
-    image: "7.webp"
+    image: "7.webp",
   },
   {
     id: 8,
@@ -99,9 +99,9 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 59.99,
-      finalPrice: 59.99
+      finalPrice: 59.99,
     },
-    image: "8.webp"
+    image: "8.webp",
   },
   {
     id: 9,
@@ -111,8 +111,8 @@ export const products = [
     price: {
       currency: "EUR",
       regularPrice: 51.59,
-      finalPrice: 43.2
+      finalPrice: 43.2,
     },
-    image: "9.webp"
-  }
+    image: "9.webp",
+  },
 ];

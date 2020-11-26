@@ -37,39 +37,17 @@
         >
       </div>
     </section>
-    <div id="selection-bar">
-      <h2>Selected product</h2>
-      <div class="selected-card" v-if="isSelected">
-        <img :src="'/images/' + activeCard.image" alt="product-img" />
-        <p>{{ activeCard.brand }}</p>
-        <h4>{{ activeCard.title }}</h4>
-        <span
-          v-if="activeCard.price.finalPrice < activeCard.price.regularPrice"
-        >
-          <span class="original-price" @click="isSelected = true"
-            >{{ activeCard.price.regularPrice }}
-            {{ activeCard.price.currency }}</span
-          >
-          <span class="discount-price discount-box" @click="isSelected = true"
-            >{{ activeCard.price.finalPrice }}
-            {{ activeCard.price.currency }}</span
-          >
-        </span>
-        <span
-          class="original-price-only original-price-box"
-          v-else
-          @click="isSelected = true"
-          >{{ activeCard.price.regularPrice }}
-          {{ activeCard.price.currency }}</span
-        >
-      </div>
-    </div>
+    <display-selected :products="products" 
+    :isSelected="isSelected" 
+    :filteredList="filteredList" 
+    :activeIndex="activeIndex" />
   </div>
 </template>
 
 <script>
 import navbar from "./navbar.vue";
 import categories from "./categories.vue";
+import displaySelected from "./displaySelected.vue";
 
 import { appTitle } from "../data/data";
 import { products } from "../data/data";
@@ -79,6 +57,7 @@ export default {
   components: {
     navbar,
     categories,
+    displaySelected,
   },
   data() {
     return {
@@ -106,9 +85,6 @@ export default {
     }
   },
   computed: {
-    activeCard() {
-      return this.products[this.activeIndex];
-    },
     filteredList() {
       let products = this.products.filter((product) => {
         return (
