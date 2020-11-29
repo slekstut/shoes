@@ -20,11 +20,11 @@ $text-color: #000000;
   position: fixed;
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: 1440px;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
   a {
     display: block;
-    padding: 20px 26px;
+    padding: 1.2em 2em;
     text-transform: uppercase;
     line-height: 23px;
     color: $text-color;

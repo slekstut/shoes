@@ -1,53 +1,20 @@
 <template>
   <div id="wrapper">
     <navbar :appTitle="appTitle" />
-    <categories
-      :search="search"
-      @selected="onSelected"
-      :filteredList="filteredList"
-      @query-change="setSearchValue"
-    />
+    <categories :search="search" @selected="onSelected" :filteredList="filteredList" @query-change="setSearchValue" />
     <section class="cards">
-      <div
-        class="card"
-        v-for="(product, index) in filteredList"
-        :key="index"
-        @click="setActive(index)"
-        :class="{ active: activeIndex === index }"
-      >
-        <img
-          :src="'/images/' + product.image"
-          :alt="product.image"
-          @click="isSelected = true"
-        />
-        <span class="brand" @click="isSelected = true"
-          >{{ product.brand }}
-        </span>
-        <span class="title" @click="isSelected = true">{{
-          product.title
-        }}</span>
+      <div class="card" v-for="(product, index) in filteredList" :key="index" @click="setActive(index)" :class="{ active: activeIndex === index }">
+        <img :src="'/images/' + product.image" :alt="product.image" @click="isSelected = true" />
+        <span class="brand" @click="isSelected = true">{{ product.brand }} </span>
+        <span class="title" @click="isSelected = true">{{ product.title }}</span>
         <span v-if="product.price.finalPrice < product.price.regularPrice">
-          <span class="original-price" @click="showSelected"
-            >{{ product.price.regularPrice }} {{ product.price.currency }}</span
-          >
-          <span class="discount-price discount-box" @click="isSelected = true"
-            >{{ product.price.finalPrice }} {{ product.price.currency }}</span
-          >
+          <span class="original-price" @click="showSelected">{{ product.price.regularPrice }} {{ product.price.currency }}</span>
+          <span class="discount-price discount-box" @click="isSelected = true">{{ product.price.finalPrice }} {{ product.price.currency }}</span>
         </span>
-        <span
-          class="original-price-only original-price-box"
-          v-else
-          @click="isSelected = true"
-          >{{ product.price.regularPrice }} {{ product.price.currency }}</span
-        >
+        <span class="original-price-only original-price-box" v-else @click="isSelected = true">{{ product.price.regularPrice }} {{ product.price.currency }}</span>
       </div>
     </section>
-    <display-selected
-      :products="products"
-      :isSelected="isSelected"
-      :filteredList="filteredList"
-      :activeIndex="activeIndex"
-    />
+    <display-selected :products="products" :isSelected="isSelected" :filteredList="filteredList" :activeIndex="activeIndex" />
   </div>
 </template>
 
@@ -93,14 +60,7 @@ export default {
   computed: {
     filteredList() {
       let products = this.products.filter((product) => {
-        return (
-          product.brand.toLowerCase().includes(this.search.toLowerCase()) ||
-          product.title.toLowerCase().includes(this.search.toLowerCase()) ||
-          product.price.finalPrice
-            .toString()
-            .includes(this.search.toString()) ||
-          product.price.regularPrice.toString().includes(this.search.toString())
-        );
+        return product.brand.toLowerCase().includes(this.search.toLowerCase()) || product.title.toLowerCase().includes(this.search.toLowerCase()) || product.price.finalPrice.toString().includes(this.search.toString()) || product.price.regularPrice.toString().includes(this.search.toString());
       });
 
       if (this.sort == "brand") {
@@ -128,93 +88,30 @@ $discount-color: #ff0000;
 $discount-text-color: #ffffff;
 $text-color: #000000;
 $selected-background: #e7e7e7;
-$selected-color: #000000;
 $font: "Roboto", sans-serif;
 * {
   margin: 0;
   padding: 0;
   border: 0;
   box-sizing: border-box;
+  font-family: $font;
 }
 html {
   background-color: $discount-text-color;
 }
-body {
-  font-family: $font;
-}
 
 #wrapper {
   overflow-x: hidden; // this prevent horizontal scroll
-  height: 100%;
+  height: 100vh;
   margin: 0 auto;
-}
-
-.top-container {
-  margin-top: 6rem;
-  display: grid;
-  z-index: -1;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:
-    "category category"
-    "search search"
-    "sortby sortby ";
-  justify-items: center;
-  align-items: center;
-  #category {
-    h3 {
-      grid-area: category;
-      width: 102px;
-      height: 29px;
-      font-family: $font;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 25px;
-      line-height: 29px;
-      color: $text-color;
-      cursor: default;
-    }
-  }
-  #search {
-    grid-area: search;
-    input {
-      width: 453px;
-      height: 48px;
-      background: $discount-text-color;
-      border: 1px solid $price-color;
-      color: $price-color;
-      border-radius: 5px;
-      padding-left: 52px;
-      background-image: url(../public/images/icons/search-icon.svg);
-      background-repeat: no-repeat;
-      background-position: 19px center;
-      box-sizing: border-box;
-    }
-  }
-
-  #sortby {
-    grid-area: sortby;
-    position: relative;
-    select {
-      margin-bottom: 30px;
-      width: 330px;
-      height: 48px;
-      padding-left: 16px;
-      padding-top: 15px;
-      padding-bottom: 15px;
-      background: $discount-text-color;
-      border: 1px solid $price-color;
-      color: $price-color;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-  }
+  max-width: 1440px;
 }
 
 .cards {
   display: grid;
-  padding: 0 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  padding: 2em 1em;
+  grid-template-columns: repeat(auto-fit, minmax(453px, 1fr));
+  gap: 1em;
 
   .card {
     position: relative;
@@ -225,57 +122,57 @@ body {
     border: 1px solid #d0d0d0;
     background-color: $background-color2;
     &:hover {
-      border: 3px solid $discount-color;
-      margin: -3px;
+      border: 1px solid $discount-color;
+      margin: -1px;
+      transform: scale(1.02);
     }
   }
 
   .active {
-    border: 3px solid $discount-color;
-    margin: -3px;
+    border: 1px solid $discount-color;
+    margin: -1px;
   }
   img {
     position: absolute;
     max-width: 179px;
     height: 100%;
-    left: 0%;
-    top: 0%;
+    left: 0;
+    top: 0;
     border-radius: 5px 0px 0px 5px;
     cursor: pointer;
   }
   .brand {
     display: block;
     position: relative;
-    left: 200px;
-    top: 20px;
+    left: 15em;
+    top: 1.3em;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
-    line-height: 15px;
+    line-height: 1em;
     letter-spacing: 0em;
     color: $text-color;
     cursor: pointer;
   }
   .title {
     position: absolute;
-    top: 40px;
-    left: 200px;
-    padding: 0;
+    display: block;
+    font-weight: 600;
+    top: 2.5em;
+    left: 12em;
     cursor: pointer;
   }
   .original-price {
     position: absolute;
-    height: 15px;
-    width: 100%;
-    font-family: $font;
+    height: 1em;
     font-size: 13px;
     font-style: normal;
     font-weight: 700;
     color: $price-color;
-    line-height: 15px;
+    line-height: 1em;
     letter-spacing: 0em;
-    left: 44.81%;
-    top: 68%;
+    left: 15em;
+    top: 8.8em;
     text-decoration: line-through;
     cursor: pointer;
   }
@@ -289,15 +186,13 @@ body {
   .discount-price {
     position: absolute;
     width: auto;
-    top: 70%;
-    left: 70%;
-    margin: -10px 0px 0px -36px;
-    padding: 4px;
-    font-family: $font;
+    top: 7.2em;
+    left: 19em;
+    padding: 0.3em 0.4em;
     font-size: 15px;
     font-style: normal;
     font-weight: 700;
-    line-height: 18px;
+    line-height: 1.1em;
     letter-spacing: 0em;
     color: $discount-text-color;
     cursor: pointer;
@@ -305,12 +200,10 @@ body {
 
   .original-price-only {
     position: absolute;
-    min-height: 18px;
     width: auto;
-    left: 55%;
-    top: 79%;
-    margin: -10px 0px 0px -36px;
-    font-family: $font;
+    padding: 0.3em 0.4em;
+    left: 13em;
+    top: 7.15em;
     font-size: 15px;
     font-style: normal;
     font-weight: 700;
@@ -324,404 +217,97 @@ body {
     width: auto;
     border-radius: 3px;
     background-color: $discount-color;
-    margin-left: -50px;
-    top: 70%;
-    padding: 4px;
-    cursor: pointer;
-  }
-}
-
-#selection-bar {
-  display: grid;
-  grid-gap: 9px;
-  grid-template-rows: repeat(2, 100px);
-  background: $selected-background;
-  min-height: 319px;
-  margin-bottom: 30px;
-  h2 {
-    height: 29px;
-    width: auto;
-    margin-top: 40px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 29px;
-    justify-self: center;
-  }
-  .selected-card {
-    position: relative;
-    height: 170px;
-    max-width: 453px;
-    border-radius: 5px;
-    background-color: $background-color2;
-    border: 1px solid $border-color;
-    border-radius: 5px;
-    justify-self: center;
-  }
-  img {
-    position: relative;
-    height: 100%;
-    width: 179px;
-    left: 0%;
-    top: 0%;
-    bottom: 0%;
-    border-radius: 5px 0px 0px 5px;
-  }
-  p {
-    position: absolute;
-    height: 15px;
-    width: 135px;
-    left: 203px;
-    top: 42px;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 15px;
-    letter-spacing: 0em;
-    color: $text-color;
-  }
-  h4 {
-    position: absolute;
-    height: 20px;
-    width: auto;
-    left: 44.81%;
-    top: 38.24%;
-    font-family: $font;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 20px;
-    letter-spacing: 0em;
-  }
-  .original-price {
-    position: absolute;
-    height: 15px;
-    width: 70px;
-    font-family: $font;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 700;
-    color: $price-color;
-    line-height: 15px;
-    letter-spacing: 0em;
-    left: 44.81%;
-    top: 75%;
-    text-decoration: line-through;
-  }
-  .discount-box {
-    position: absolute;
-    min-width: 68px;
-    border-radius: 3px;
-    background-color: $discount-color;
-    left: 59.82%;
-    top: 70%;
-  }
-  .discount-price {
-    position: absolute;
-    height: 23px;
-    width: 80px;
-    padding-top: 4px;
-    font-family: $font;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 18px;
-    letter-spacing: 0em;
-    color: $discount-text-color;
-    text-align: center;
-  }
-
-  .original-price-only {
-    position: absolute;
-    min-height: 18px;
-    width: auto;
-    left: 55%;
-    top: 79%;
-    margin: -10px 0px 0px -36px;
-    font-family: $font;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: 0em;
-    color: $discount-text-color;
-    cursor: pointer;
-  }
-
-  .original-price-box {
-    position: absolute;
-    min-width: 68px;
-    border-radius: 3px;
-    background-color: $discount-color;
-    margin-left: -20px;
-    top: 70%;
-    padding: 4px;
     cursor: pointer;
   }
 }
 
 /* Media Queries */
 
-@media (max-width: 500px) {
-  body {
-    font-size: 12px;
+@media screen and (max-width: 1422px) and (min-width: 1024.01px) {
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 860px) {
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 860px) and (min-width: 640.01px) {
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 453px));
+    justify-content: center;
   }
 
-  .main-nav {
-    height: 2rem;
-    a {
-      padding: 5px 20px;
-      font-size: 10px;
-    }
-  }
-  .cards {
-    margin: 0 0 10px 0;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    align-items: center;
-    justify-items: center;
-    .card {
-      .brand {
-        top: 11px;
-      }
-      .title {
-        font-weight: 500;
-      }
-      width: 100%;
-      .original-price {
-        left: 12.5rem;
-        top: 6rem;
-      }
-      .original-price-only {
-        left: 240px;
-        width: auto;
-      }
-      .discount-price {
-        left: 14.5rem;
-        top: 8.5rem;
-      }
-    }
-  }
   .top-container {
+    justify-content: center;
+    #search {
+      input {
+        width: 300px;
+      }
+    }
+    #sortby {
+      select {
+        width: 300px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .top-container {
+    grid-template-columns: 1fr;
     grid-template-areas:
       "category"
       "search"
       "sortby";
-    gap: 1rem;
-    margin: 0;
-    padding-top: 40px;
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-items: center;
-    #search input {
-      width: 300px;
-    }
-    #sortby select {
-      width: 300px;
-    }
-  }
-  #selection-bar {
-    margin: 0;
-    margin-bottom: 30px;
-    .selected-card {
-      width: 90%;
-      .original-price-only {
-        left: 13.5rem;
-        top: 8.6rem;
-        width: auto;
-      }
-      p {
-        left: 13rem;
-        top: 0.8rem;
-      }
-      h4 {
-        font-size: 12px;
-        line-height: 1.1;
-        left: 13rem;
-        top: 2.6rem;
-        width: auto;
-      }
-      .original-price {
-        left: 12.5rem;
-        top: 7rem;
-      }
-      .discount-price {
-        width: auto;
-        margin: 0;
-        padding: 5px;
-        left: 12.5rem;
-        top: 8.5rem;
-        padding-top: 3px;
+    #search {
+      input {
+        width: 300px;
       }
     }
-  }
-}
-@media screen and (max-width: 992px) and (min-width: 500.1px) {
-  .top-container {
-    gap: 1rem;
-    #category h3 {
-      top: 90px;
-      left: 50px;
-      padding-bottom: 1rem;
-    }
-    select option {
-      width: 5px;
-      padding: 0;
-    }
-    #sortby select {
-      width: 453px;
+    #sortby {
+      select {
+        width: 300px;
+      }
     }
   }
 
   .cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    .title {
-      font-weight: 500;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 453px));
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .cards {
+    // font-size: 10px;
+    .brand {
+      font-size: 10px;
+      left: 19em;
     }
-    .original-price-only {
-      left: 70%;
+    .title {
+      font-size: 13px;
+      left: 14.6em;
+      padding-right: 0.7em;
     }
     .original-price {
-      left: 50%;
+      font-size: 11px;
+      top: 8.2em;
+      left: 17.4em;
     }
     .discount-price {
-      left: 82%;
+      font-size: 13px;
+      left: 14.7em;
+      top: 9.2em;
     }
-  }
-  #selection-bar {
-    margin-top: 30px;
-    .selected-card {
-      width: 360px;
-      p {
-        top: 10%;
-      }
-      h4 {
-        left: 56%;
-        top: 22%;
-      }
-      .original-price-only {
-        width: auto;
-        left: 14rem;
-        top: 8.8rem;
-      }
-      .original-price {
-        left: 12.8rem;
-        top: 7rem;
-      }
-      .discount-price {
-        margin: 0;
-        left: 12.5rem;
-        top: 8.5rem;
-      }
-    }
-  }
-}
-@media screen and (max-width: 1440px) and (min-width: 992.1px) {
-  .main-nav {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-  .top-container {
-    grid-template-areas:
-      "category category"
-      "search sortby";
-    gap: 1rem;
-    column-gap: 3rem;
-    margin: 0;
-    padding-top: 60px;
-    padding-bottom: 30px;
-    #sortby select {
-      margin: 0;
-      width: 453px;
-    }
-  }
-  .cards {
-    display: grid;
-    padding: 0 1rem;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    .title {
-      font-weight: 500;
-    }
-  }
-  #selection-bar {
-    margin-top: 30px;
-    .selected-card {
-      width: 484px;
-      p {
-        top: 10%;
-      }
-      h4 {
-        left: 45%;
-        top: 22%;
-      }
-      .original-price-only {
-        width: auto;
-        left: 14rem;
-        top: 8.8rem;
-      }
-      .original-price {
-        left: 12.8rem;
-        top: 7rem;
-      }
-      .discount-price {
-        margin: 0;
-        left: 12.5rem;
-        top: 8.5rem;
-      }
-    }
-  }
-}
-@media screen and (min-width: 1440.01px) {
-  .top-container {
-    grid-template-areas:
-      "category category"
-      "search sortby";
-    gap: 1rem;
-    column-gap: 3rem;
-    margin: 0;
-    padding-top: 5%;
-    padding-bottom: 30px;
-    #sortby select {
-      margin: 0;
-      width: 453px;
-    }
-  }
-  .cards {
-    display: grid;
-    padding: 0 1rem;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(453px, 1fr));
-    .title {
-      font-weight: 500;
-    }
-  }
-  #selection-bar {
-    margin-top: 30px;
-    .selected-card {
-      width: 484px;
-      p {
-        top: 10%;
-      }
-      h4 {
-        left: 45%;
-        top: 22%;
-      }
-      .original-price-only {
-        width: auto;
-        left: 14rem;
-        top: 8.8rem;
-      }
-      .original-price {
-        left: 12.8rem;
-        top: 7rem;
-      }
-      .discount-price {
-        margin: 0;
-        left: 12.5rem;
-        top: 8.5rem;
-      }
+    .original-price-only {
+      font-size: 13px;
+      left: 14.7em;
     }
   }
 }
