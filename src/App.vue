@@ -160,6 +160,7 @@ html {
     font-weight: 600;
     top: 2.5em;
     left: 12em;
+    padding-right: 0.4em;
     cursor: pointer;
   }
   .original-price {
@@ -224,23 +225,65 @@ html {
 /* Media Queries */
 
 @media screen and (max-width: 1422px) and (min-width: 1024.01px) {
+  .top-container {
+    justify-content: center;
+    #search {
+      input {
+        width: 400px;
+      }
+    }
+    #sortby {
+      select {
+        width: 400px;
+      }
+    }
+  }
   .cards {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 35%));
     justify-content: center;
   }
 }
 
 @media screen and (max-width: 1024px) and (min-width: 860px) {
+  .top-container {
+    justify-content: center;
+    #search {
+      input {
+        width: 400px;
+      }
+    }
+    #sortby {
+      select {
+        width: 400px;
+      }
+    }
+  }
   .cards {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     justify-content: center;
   }
 }
 
-@media screen and (max-width: 860px) and (min-width: 640.01px) {
+@media screen and (max-width: 860px) and (min-width: 688.01px) {
   .cards {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 453px));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     justify-content: center;
+
+    .original-price {
+      font-size: 11px;
+      top: 10em;
+      left: 17.4em;
+    }
+    .discount-price {
+      font-size: 13px;
+      left: 14.7em;
+      top: 10.2em;
+    }
+    .original-price-only {
+      font-size: 13px;
+      left: 14.7em;
+      top: 9em;
+    }
   }
 
   .top-container {
@@ -258,7 +301,7 @@ html {
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 688px) {
   .top-container {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -267,12 +310,12 @@ html {
       "sortby";
     #search {
       input {
-        width: 300px;
+        width: 412.4px;
       }
     }
     #sortby {
       select {
-        width: 300px;
+        width: 412.4px;
       }
     }
   }
@@ -284,8 +327,19 @@ html {
 }
 
 @media screen and (max-width: 425px) {
+  .top-container {
+    #search {
+      input {
+        width: 320px;
+      }
+    }
+    #sortby {
+      select {
+        width: 320px;
+      }
+    }
+  }
   .cards {
-    // font-size: 10px;
     .brand {
       font-size: 10px;
       left: 19em;
